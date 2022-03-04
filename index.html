@@ -70,14 +70,14 @@ function imprimaResultado(nomeCurso, semente, embaralhada, vagas, pontoImpressao
 
 function gereVisualDeCabecalhoDaLista(nomeCurso, semente){
 	var data = new Date(semente);
-	return "Horário do sorteio: " + data.getDate() + "/" + (pad(data.getMonth()+1)) + "/" + pad(data.getFullYear()) + ", " + pad(data.getHours()) + ":" + pad(data.getMinutes()) + ":" + pad(data.getSeconds()) + ".<H1>Lista <b>Preliminar</b> do sorteio - " + nomeCurso + "</H1><H2>Primeira chamada</H2>";
+	return "Horário do sorteio: " + data.getDate() + "/" + (pad(data.getMonth()+1)) + "/" + pad(data.getFullYear()) + ", " + pad(data.getHours()) + ":" + pad(data.getMinutes()) + ":" + pad(data.getSeconds()) + ".<H1>Lista <b>Preliminar</b> do sorteio - " + nomeCurso + "</H1>";
 
 }
 
 function gereVisualDeListaDeSelecionados(lista, ultimaPosicao){
 	var conteudo = "<table border=0 style='text-align: center;'>";
 	for(var i = 0; i < ultimaPosicao; i++){
-		conteudo += "<tr><td width=80><b><font size='6'>" + lista[i] + "</b></font></td><td width=80><font size='6'>" + padSpaces(lista[i], lista.length) + "(" + (i+1) + "º)</font></td>";
+		conteudo += "<tr><td width=80><b><font size='5'>" + lista[i] + "</b></font></td><td width=80><font size='5'>" + padSpaces(lista[i], lista.length) + "(" + (i+1) + "º)</font></td><td><b>Primeira chamada</b></td>";
 
 		if(i < ultimaPosicao - 1){
 			conteudo += "";
@@ -88,13 +88,14 @@ function gereVisualDeListaDeSelecionados(lista, ultimaPosicao){
 }
 
 function gereVisualDeCabecalhoDaEspera(nomeCurso){
-	return "<H2>Lista de Espera - " + nomeCurso + "</H2>";
+	return "";
+	//return "<H2>Lista de Espera - " + nomeCurso + "</H2>";
 }
 
 function gereVisualDeListaDeEspera(lista, ultimaPosicao){
 	var conteudo = "<table border=0 style='text-align: center;'>";
 	for(var i = ultimaPosicao; i < lista.length; i++){
-		conteudo += "<tr><td width=80><font size='5'>" + lista[i] + "</font></td><td width=80><font size='5'>" + padSpaces(lista[i], lista.length) + "(" + (parseInt(i)+1) + "º)</font></td>";
+		conteudo += "<tr><td width=80><font size='4'>" + lista[i] + "</font></td><td width=80><font size='4'>" + padSpaces(lista[i], lista.length) + "(" + (parseInt(i)+1) + "º)</font></td><td>Lista de Espera</td>";
 
 		if(i < lista.length - 1){
 			conteudo += "";
