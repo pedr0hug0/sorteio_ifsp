@@ -14,6 +14,11 @@ Caso deseje verificar a autenticidade da lista impressa publicada usando a semen
 <meta http-equiv="Content-Type" content="text/html"/>
 <title>Sorteio Eletrônico - Instituto Federal de Educação, Ciência e Tecnologia de SP (IFSP)</title>
 <script src=seedrandom.js></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.4/jspdf.plugin.autotable.min.js"></script>
+
 <script>
 
 function gereEImprimaResultado() {
@@ -29,7 +34,7 @@ function gereEImprimaResultado() {
 	var embaralhada = gereListaEmbaralhada(inscritos, semente);
 	//var pontoImpressao = //document.sorteio.textArea;
 	var pontoImpressao = document.getElementById('resultado');
-	imprimaResultado(nomeCurso, semente, embaralhada, vagas, pontoImpressao);
+	imprimaResultado(nomeCurso, semente, embaralhada, vagas, pontoImpressao);	
 }
 
 function gereListaEmbaralhada(inscritos, semente){
@@ -65,12 +70,37 @@ function imprimaResultado(nomeCurso, semente, embaralhada, vagas, pontoImpressao
 	//pontoImpressao.value = conteudo;
 	pontoImpressao.innerHTML = conteudo;
 	
+	//gerarPDF
+	var doc = new jsPDF();
+ 
+  // We'll make our own renderer to skip this editor
+  var specialElementHandlers = {
+    '#getPDF': function(element, renderer){
+      return true;
+    },
+    '.controls': function(element, renderer){
+      return true;
+    }
+  };
+
+  // All units are in the set measurement for the document
+  // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
+  
+  doc.fromHTML(conteudo, 15, 15, {
+    'width': 170, 
+    'elementHandlers': specialElementHandlers
+  });
+
+  // Save the PDF
+	var nomeCurso = document.sorteio.nomeCurso.value;
+	doc.save(nomeCurso+" - "+semente+".pdf");
+	window.print();
 	
 }
 
 function gereVisualDeCabecalhoDaLista(nomeCurso, semente){
 	var data = new Date(semente);
-	return "Horário do sorteio: " + data.getDate() + "/" + (pad(data.getMonth()+1)) + "/" + pad(data.getFullYear()) + ", " + pad(data.getHours()) + ":" + pad(data.getMinutes()) + ":" + pad(data.getSeconds()) + ".<H1>Lista <b>Preliminar</b> do sorteio - " + nomeCurso + "</H1>";
+	return "<h1>"+ nomeCurso +"</h1>Horário do sorteio: " + data.getDate() + "/" + (pad(data.getMonth()+1)) + "/" + pad(data.getFullYear()) + ", " + pad(data.getHours()) + ":" + pad(data.getMinutes()) + ":" + pad(data.getSeconds()) + ".<H1>Lista <b>Preliminar</b> do sorteio</H1>";
 
 }
 
@@ -139,7 +169,12 @@ function padSpaces(atual, maximo) {
 </script>
 </head>
 <body>
+	
+	
+		
+
 <img src="logo.png" />
+<div class="zima">
  <form name="sorteio">
   <table border=0>
    <tr>
@@ -191,5 +226,6 @@ Semente:
 	<input type="button" value="Imprimir" onClick="window.print()"/>
 	</form>
 -->
+</div>
 </body>
 </html>
